@@ -9,13 +9,32 @@ export const LoadGLTFByPath = (scene) => {
     const loader = new GLTFLoader();
 
     //Load the GLTFLoader file 
-    loader.load(scenePath, (gltf) =>{
-      scene.add(gltf.scene);
-      
+    loader.load(scenePath, (gltf) => {
+      const laptop = gltf.scene;
+      const screen = laptop.getObjectByName('BlackScreen');
+      scene.add(laptop);
+
+      if (screen) {
+        const video = document.createElement('video');
+        video.src = '/public/models/vid.mp4'
+        video.loop = true;
+        video.muted = true;
+        video.play();
+
+        //Create a texture from the video
+        const videoTexture = new THREE.VideoTexture(video);
+
+        // Apply the video texture to the screen material
+        screen.material = new THREE.MeshBasicMaterial({ map: videoTexture });
+
+      }
+
+      //Add the laptop model to the scene
+      scene.add(laptop);
+
       resolve();
     }, undefined, (error) => {
       reject(error);
     });
   });
 };
-
