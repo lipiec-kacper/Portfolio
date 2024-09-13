@@ -23,6 +23,10 @@ export const LoadGLTFByPath = (scene) => {
 
         //Create a texture from the video
         const videoTexture = new THREE.VideoTexture(video);
+        videoTexture.repeat.set(4, 6); // Increase these values to make the video smaller
+
+        // Center the video texture by adjusting the offset
+        videoTexture.offset.set(-0.52, -1.5);
 
         // Apply the video texture to the screen material
         screen.material = new THREE.MeshBasicMaterial({ map: videoTexture });

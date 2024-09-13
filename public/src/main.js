@@ -15,14 +15,14 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadows = true;
 renderer.shadowType = 1;
 renderer.shadowMap.enabled = true;
-renderer.setPixelRatio( window.devicePixelRatio );
+renderer.setPixelRatio(window.devicePixelRatio);
 renderer.toneMapping = 0;
 renderer.toneMappingExposure = 1
-renderer.useLegacyLights  = false;
+renderer.useLegacyLights = false;
 renderer.toneMapping = THREE.NoToneMapping;
 renderer.setClearColor(0xffffff, 0);
 //make sure three/build/three.module.js is over r152 or this feature is not available. 
-renderer.outputColorSpace = THREE.SRGBColorSpace 
+renderer.outputColorSpace = THREE.SRGBColorSpace
 
 const scene = new THREE.Scene();
 
@@ -41,7 +41,7 @@ LoadGLTFByPath(scene)
   });
 
 //retrieve list of all cameras
-function retrieveListOfCameras(scene){
+function retrieveListOfCameras(scene) {
   // Get a list of all cameras in the scene
   scene.traverse(function (object) {
     if (object.isCamera) {
