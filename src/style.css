@@ -1,0 +1,37 @@
+canvas {
+  top: 0;
+  left: 0;
+};
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+#firstPart, #secondPart {
+  width: 100vw;  /* Full viewport width */
+  height: 100vh; /* Full viewport height */
+}
+
+#firstPart {
+  background: #333;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#secondPart {
+  background: #333;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* Ensure the body can scroll to show the second section */
+html, body {
+  /*margin: 0;*/
+  /*padding: 0;*/
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
