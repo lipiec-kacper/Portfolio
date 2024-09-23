@@ -7,7 +7,6 @@ export const LoadGLTFByPath = (scene) => {
   return new Promise((resolve, reject) => {
     //Create a loader 
     const loader = new GLTFLoader();
-
     //Load the GLTFLoader file 
     loader.load(scenePath, (gltf) => {
       const laptop = gltf.scene;

@@ -2,17 +2,13 @@ import * as THREE from 'three'
 import { LoadGLTFByPath } from './Helpers/ModelHelper.js'
 import { gsap } from 'gsap';
 
-//Renderer does the job of rendering the graphics
 
 let renderer = new THREE.WebGLRenderer({
-
-  //Defines the canvas component in the DOM that will be used
   canvas: document.querySelector('#background'), antialias: true,
 });
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 
-//set up the renderer with the default settings for threejs.org/editor
 renderer.shadows = true;
 renderer.shadowType = 1;
 renderer.shadowMap.enabled = true;
@@ -22,17 +18,14 @@ renderer.toneMappingExposure = 1
 renderer.useLegacyLights = false;
 renderer.toneMapping = THREE.NoToneMapping;
 renderer.setClearColor(0xffffff, 0);
-//make sure three/build/three.module.js is over r152 or this feature is not available. 
-renderer.outputColorSpace = THREE.SRGBColorSpace
+renderer.outputColorSpace = THREE.SRGBColorSpace;
 
 const scene = new THREE.Scene();
 
 let cameraList = [];
-let currentCameraIndex = 0;
 let camera;
-
-let lastScrollPosition = window.scrollY; //Store the last scroll positon 
-const switchThreshold = 5; //prevent the camera from switching too frequently with small scrolls
+let currentCamera = 1;
+let lastScrollPosition = 0;
 
 
 //Load the GLTF model 
@@ -47,83 +40,98 @@ LoadGLTFByPath(scene)
 
 //retrieve list of all cameras
 function retrieveListOfCameras(scene) {
-  // Get a list of all cameras in the scene
   scene.traverse(function (object) {
     if (object.isCamera) {
       cameraList.push(object);
     }
   });
+  camera = cameraList[1];
+  camera.fov = 31;
 
-  //Set the camera to the first value in the list of cameras
-  camera = cameraList[currentCameraIndex];
   updateCameraAspect(camera);
-
-  // Start the animation loop after the model and cameras are loaded
-  animate();
+  renderer.setAnimationLoop(animate);
 }
 
-// Set the camera aspect ratio to match the browser window dimensions
 function updateCameraAspect(camera) {
   const width = window.innerWidth;
   const height = window.innerHeight;
   camera.aspect = width / height;
   camera.updateProjectionMatrix();
 }
+
 function smoothCameraTransition(targetCamera) {
+  camera.fov = 22;
+  updateCameraAspect(targetCamera);
+
   gsap.to(camera.position, {
     x: targetCamera.position.x,
     y: targetCamera.position.y,
     z: targetCamera.position.z,
     duration: 2,
-    ease: 'power3.inout',
+    onUpdate: function () {
+      camera.lookAt(-0.545640230178833, 0.1285281628370285, -0.0006271898746490479);
+    },
   });
-
-  if (camera.controls) {
-    gsap.to(camera.controls.target, {
-      x: targetCamera.controls.target.x || 0,
-      y: targetCamera.controls.target.y || 0,
-      z: targetCamera.controls.target.z || 0,
-      duration: 2,
-      ease: 'power3.inout',
-    });
-  }
 }
 
-// Switch camera based on scroll direction
+function smoothCameraTransitionDN() {
+  camera.fov = 31;
+
+  //const modelCenter = getModelCenter(scene);
+  gsap.to(camera.position, {
+    x: 0.35830822587013245,
+    y: 0.4298137128353119,
+    z: 0.42748406529426575,
+    duration: 2,
+    onUpdate: function () {
+      camera.lookAt(-0.545640230178833, 0.1285281628370285, -0.0006271898746490479);
+    },
+  });
+}
+let scrollThreshold = 10; // Adjust this value to control sensitivity
+
 function switchCameraOnScroll() {
   const currentScrollPosition = window.scrollY;
-  const scrollDelta = currentScrollPosition - lastScrollPosition;
 
-  if (scrollDelta > switchThreshold && currentScrollPosition > lastScrollPosition) {
-    // Scrolling down, switch to next camera
-    if (currentCameraIndex < cameraList.length - 1) {
-      currentCameraIndex++;
-      smoothCameraTransition(cameraList[currentCameraIndex]);
-      camera = cameraList[currentCameraIndex];
-      updateCameraAspect(camera);
-      console.log('Switched to camera:', currentCameraIndex, '(Scrolling down)');
+  // Check if the scroll distance exceeds the threshold
+  const scrollDifference = Math.abs(currentScrollPosition - lastScrollPosition);
+
+  if (scrollDifference > scrollThreshold) {
+    //Scrolling down
+    if (currentScrollPosition > lastScrollPosition) {
+      if (currentCamera === 0) {
+        currentCamera = 1;
+        smoothCameraTransitionDN();
+        updateCameraAspect(camera);
+      }
     }
-  } else if (scrollDelta < -switchThreshold && currentScrollPosition < lastScrollPosition) {
-    // Scrolling up, switch to previous camera
-    if (currentCameraIndex > 0) {
-      currentCameraIndex--;
-      smoothCameraTransition(cameraList[currentCameraIndex]);
-      camera = cameraList[currentCameraIndex];
-      updateCameraAspect(camera);
-      console.log('Switched to camera:', currentCameraIndex, '(Scrolling up)');
+
+    //Scrolling up
+    if (currentScrollPosition < lastScrollPosition) {
+      if (currentCamera === 1 && currentScrollPosition <= 10) {
+        currentCamera = 0;
+        smoothCameraTransition(cameraList[0]);
+        updateCameraAspect(camera);
+      }
     }
+
+    lastScrollPosition = currentScrollPosition; // Update last scroll position
   }
-
-  lastScrollPosition = currentScrollPosition;
 }
 
-// Add scroll listener for switching cameras
 window.addEventListener('scroll', switchCameraOnScroll);
 
-//A method to be run each time a frame is generated
 function animate() {
-  requestAnimationFrame(animate);
-
   renderer.render(scene, camera);
 };
 
+
+//Camera 0 :
+//camera x:0.10277917981147766
+//camera y:0.30765146017074585
+//camera z:0
+//
+//Camera 1:
+//camera x:0.35830822587013245
+//camera y:0.4298137128353119
+//camera z:0.42748406529426575
