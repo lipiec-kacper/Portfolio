@@ -1,53 +1,89 @@
-import * as THREE from 'three'
-import { LoadGLTFByPath } from './Helpers/ModelHelper.js'
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { gsap } from 'gsap';
 
-
 let renderer = new THREE.WebGLRenderer({
-  canvas: document.querySelector('#background'), antialias: true,
+  canvas: document.querySelector('#background'),
+  antialias: true,
 });
 
 renderer.setSize(window.innerWidth, window.innerHeight);
-
-renderer.shadows = true;
-renderer.shadowType = 1;
 renderer.shadowMap.enabled = true;
 renderer.setPixelRatio(window.devicePixelRatio);
-renderer.toneMapping = 0;
-renderer.toneMappingExposure = 1
-renderer.useLegacyLights = false;
-renderer.toneMapping = THREE.NoToneMapping;
 renderer.setClearColor(0xffffff, 0);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 
 const scene = new THREE.Scene();
-
 let cameraList = [];
 let camera;
 let currentCamera = 1;
 let lastScrollPosition = 0;
 
+let animationAction;
 
-//Load the GLTF model 
+// Animation variables
+let mixer; // Animation mixer
+const clock = new THREE.Clock(); // Clock to track time
 
-LoadGLTFByPath(scene)
-  .then(() => {
-    retrieveListOfCameras(scene);
-  })
-  .catch((error) => {
-    console.error('Error loading JSON scene:', error);
+// Load the GLB model
+const loadGLTFModel = (path) => {
+  return new Promise((resolve, reject) => {
+    const loader = new GLTFLoader();
+    loader.load(path, (gltf) => {
+      scene.add(gltf.scene);
+      setupAnimations(gltf);
+      const screen = scene.getObjectByName('BlackScreen');
+
+      if (screen) {
+        const video = document.createElement('video');
+        video.src = '/public/models/vid.mp4'
+        video.loop = true;
+        video.muted = true;
+        video.play();
+
+        //Create a texture from the video
+        const videoTexture = new THREE.VideoTexture(video);
+        videoTexture.repeat.set(4, 6); // Increase these values to make the video smaller
+
+        // Center the video texture by adjusting the offset
+        videoTexture.offset.set(-0.52, -1.5);
+
+        // Apply the video texture to the screen material
+        screen.material = new THREE.MeshBasicMaterial({ map: videoTexture });
+
+      }
+      resolve();
+    }, undefined, reject);
   });
+};
+function setupAnimations(gltf) {
+  mixer = new THREE.AnimationMixer(gltf.scene);
 
-//retrieve list of all cameras
-function retrieveListOfCameras(scene) {
-  scene.traverse(function (object) {
+  // Play all animations simultaneously
+  if (gltf.animations.length > 0) {
+    gltf.animations.forEach((clip, index) => {
+      const animationAction = mixer.clipAction(clip);
+      animationAction.setLoop(THREE.LoopOnce, 1); // Set to play once
+      animationAction.clampWhenFinished = true; // Ensure it clamps to the last frame
+      animationAction.play(); // Play the animation
+
+      // Listen for the finished event to stop and keep the last position
+      animationAction.onFinished = () => {
+        animationAction.stop(); // Stop the animation but keep the last position
+      };
+    });
+  }
+}
+
+// Retrieve list of all cameras
+function retrieveListOfCameras() {
+  scene.traverse((object) => {
     if (object.isCamera) {
       cameraList.push(object);
     }
   });
   camera = cameraList[1];
   camera.fov = 31;
-
   updateCameraAspect(camera);
   renderer.setAnimationLoop(animate);
 }
@@ -60,9 +96,6 @@ function updateCameraAspect(camera) {
 }
 
 function smoothCameraTransition(targetCamera) {
-  camera.fov = 22;
-  updateCameraAspect(targetCamera);
-
   gsap.to(camera.position, {
     x: targetCamera.position.x,
     y: targetCamera.position.y,
@@ -75,9 +108,6 @@ function smoothCameraTransition(targetCamera) {
 }
 
 function smoothCameraTransitionDN() {
-  camera.fov = 31;
-
-  //const modelCenter = getModelCenter(scene);
   gsap.to(camera.position, {
     x: 0.35830822587013245,
     y: 0.4298137128353119,
@@ -88,50 +118,53 @@ function smoothCameraTransitionDN() {
     },
   });
 }
+
 let scrollThreshold = 10; // Adjust this value to control sensitivity
 
 function switchCameraOnScroll() {
   const currentScrollPosition = window.scrollY;
-
-  // Check if the scroll distance exceeds the threshold
   const scrollDifference = Math.abs(currentScrollPosition - lastScrollPosition);
 
   if (scrollDifference > scrollThreshold) {
-    //Scrolling down
     if (currentScrollPosition > lastScrollPosition) {
       if (currentCamera === 0) {
         currentCamera = 1;
         smoothCameraTransitionDN();
         updateCameraAspect(camera);
       }
-    }
-
-    //Scrolling up
-    if (currentScrollPosition < lastScrollPosition) {
+    } else if (currentScrollPosition < lastScrollPosition) {
       if (currentCamera === 1 && currentScrollPosition <= 10) {
         currentCamera = 0;
         smoothCameraTransition(cameraList[0]);
         updateCameraAspect(camera);
       }
     }
-
     lastScrollPosition = currentScrollPosition; // Update last scroll position
   }
 }
 
 window.addEventListener('scroll', switchCameraOnScroll);
 
+// Animate function
 function animate() {
+  // Update the mixer with the delta time
+  if (mixer) {
+    const delta = clock.getDelta();
+    mixer.update(delta); // Update animations
+  }
+  // Render the scene
   renderer.render(scene, camera);
-};
+}
 
+// Initialize the scene and load the model
+loadGLTFModel('/public/models/sceneAnim.gltf')
+  .then(retrieveListOfCameras)
+  .catch((error) => {
+    console.error('Error loading GLTF model:', error);
+  });
 
-//Camera 0 :
-//camera x:0.10277917981147766
-//camera y:0.30765146017074585
-//camera z:0
-//
-//Camera 1:
-//camera x:0.35830822587013245
-//camera y:0.4298137128353119
-//camera z:0.42748406529426575
+// Handle window resize
+window.addEventListener('resize', () => {
+  updateCameraAspect(camera);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
