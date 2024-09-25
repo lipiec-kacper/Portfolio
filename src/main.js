@@ -21,8 +21,10 @@ let lastScrollPosition = 0;
 
 let animationAction;
 
+let storedHTML = null;
 // Animation variables
 let mixer; // Animation mixer
+let played = false;
 const clock = new THREE.Clock(); // Clock to track time
 
 // Load the GLB model
@@ -36,21 +38,28 @@ const loadGLTFModel = (path) => {
 
       if (screen) {
         const video = document.createElement('video');
-        video.src = '/public/models/vid.mp4'
-        video.loop = true;
+        video.src = '/public/models/modified.mp4'
+        video.loop = false;
         video.muted = true;
-        video.play();
 
         //Create a texture from the video
         const videoTexture = new THREE.VideoTexture(video);
-        videoTexture.repeat.set(4, 6); // Increase these values to make the video smaller
+        videoTexture.repeat.set(4, 4); // Increase these values to make the video smaller
 
         // Center the video texture by adjusting the offset
-        videoTexture.offset.set(-0.52, -1.5);
+        videoTexture.offset.set(-0.5, -1);
 
-        // Apply the video texture to the screen material
-        screen.material = new THREE.MeshBasicMaterial({ map: videoTexture });
 
+        video.currentTime = 0;
+        video.pause();
+        video.onloadeddata = () => {
+          videoTexture.needsUpdate = true; // Ensure the texture is updated
+          screen.material = new THREE.MeshBasicMaterial({ map: videoTexture });
+        };
+
+        // Store video and texture for later usage
+        screen.userData.video = video;
+        screen.userData.videoTexture = videoTexture;
       }
       resolve();
     }, undefined, reject);
@@ -104,6 +113,31 @@ function smoothCameraTransition(targetCamera) {
     onUpdate: function () {
       camera.lookAt(-0.545640230178833, 0.1285281628370285, -0.0006271898746490479);
     },
+    onComplete: function () {
+      const screen = scene.getObjectByName('BlackScreen');
+      if (screen) {
+        if (played === false) {
+          const video = screen.userData.video;
+
+          // Start playing the video
+          video.play();
+
+          // Stop the video at the last frame when it's finished
+          video.onended = () => {
+            video.currentTime = video.duration; // Set to the last frame
+            video.pause();
+            played = true;// Ensure the video doesn't restart
+          };
+        }
+
+      }
+      // Remove a specific HTML element (e.g., a div with ID 'oldDiv')
+      const elementToRemove = document.getElementById('secondPart');
+      if (elementToRemove) {
+        storedHTML = elementToRemove.innerHTML;
+        elementToRemove.remove();  // Remove the element from the DOM
+      }
+    }
   });
 }
 
@@ -116,6 +150,15 @@ function smoothCameraTransitionDN() {
     onUpdate: function () {
       camera.lookAt(-0.545640230178833, 0.1285281628370285, -0.0006271898746490479);
     },
+    onComplete: function () {
+      if (storedHTML) {
+        const newDiv = document.createElement('div');
+        newDiv.id = 'secondPart'; // Set the same ID if needed
+        newDiv.innerHTML = storedHTML; // Use the stored HTML content
+        document.body.appendChild(newDiv); // Append the new div to the body
+        storedHTML = null; // Reset storedHTML to null once re-added
+      }
+    }
   });
 }
 
@@ -157,7 +200,7 @@ function animate() {
 }
 
 // Initialize the scene and load the model
-loadGLTFModel('/public/models/sceneAnim.gltf')
+loadGLTFModel('/public/models/sceneAn2.gltf')
   .then(retrieveListOfCameras)
   .catch((error) => {
     console.error('Error loading GLTF model:', error);

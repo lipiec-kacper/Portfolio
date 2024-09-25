@@ -3,15 +3,7 @@
 	<head lang="en">
 		<meta charset="utf-8">
 		<title>My first three.js app</title>
-		<style>
-			body { margin: 0; }
-		</style>
-
-	<link rel="stylesheet" type="text/css" href="/src/style.css">
-		<!-- 
-			Import map is not available in all browsers.
-			This is necessary to serve the three path so that other imports can access it. 
-		-->
+	  <link rel="stylesheet" type="text/css" href="/src/style.css">
 		<script type="importmap">
 			{
 				"imports": {
@@ -21,13 +13,19 @@
 		</script>
 	</head>
 	<body>
-    <div id = "firstPart">
-<!-- Canvas is necessary to hold a scene  -->
+    <header>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Home</a></li>
+      </ul>
+    </header>
+    <section>
 		<canvas id="background"></canvas>
 		<script type="module" src="/src/main.js"></script>
-      
+    </section>
+    <div id = secondPart>
+      <h2>This is the second part of the website</h2>
     </div>
-		<div id="secondPart">
-    </div>
-	</body>
+</body>
 </html>

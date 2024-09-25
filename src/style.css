@@ -1,35 +1,36 @@
-canvas {
-  top: 0;
-  left: 0;
-};
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   overflow: hidden;
 }
 
-#firstPart, #secondPart {
-  width: 100vw;  /* Full viewport width */
-  height: 100vh; /* Full viewport height */
-}
-
-#firstPart {
-  background: rgb(255,255,255);
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+header{
+background: rgb(0,0,0);
 }
 
 #secondPart {
-  background: rgb(255,255,255);
-  color: rgb(255,255,255);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100vw;  /* Full viewport width */
+  height: 100vh; /* Full viewport height */
+  background: rgb(0,0,0);
 }
+
+section{
+  background: rgb(0,0,0);
+} 
+/**/
+/*#secondpart::before{*/
+/*  content:'';*/
+/*  position: flex;*/
+/*  bottom:0;*/
+/*  width: 100%;*/
+/*  height: 50px;*/
+/*  background: linear-gradient(to top, rgb(255,255,255), transparent);*/
+/*  z-index: 1000;*/
+/*}*/
+
 /* Ensure the body can scroll to show the second section */
 html, body {
+   background: rgb(0,0,0);
   /*margin: 0;*/
   /*padding: 0;*/
   scroll-behavior: smooth;
