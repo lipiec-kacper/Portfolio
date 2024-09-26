@@ -163,8 +163,8 @@ function smoothCameraTransitionDN() {
         const otherDiv1 = document.getElementById('secondPart');
 
         if (otherDiv && otherDiv1) {
-          otherDiv.style.background = 'linear-gradient(to right, rgb(38, 28, 30), rgb(70, 44, 47) 43%, rgb(53, 39, 52), rgb(30, 26, 32))'; // Set the background gradient
-          otherDiv1.style.backgroundImage = 'linear-gradient(to right, rgb(38, 28, 30), rgb(70, 44, 47) 43%, rgb(53, 39, 52), rgb(30, 26, 32)), linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1))'; // Set multiple gradients
+          otherDiv.style.background = 'linear-gradient(to right, rgb(38, 28, 30), rgb(70, 44, 47) 46%, rgb(53, 39, 52), rgb(37, 32, 41))'; // Set the background gradient
+          otherDiv1.style.backgroundImage = 'linear-gradient(to right, rgb(38, 28, 30), rgb(70, 44, 47) 46%, rgb(53, 39, 52), rgb(37, 32, 41)), linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1))'; // Set multiple gradients
         }
       }
     }
