@@ -22,6 +22,8 @@ let lastScrollPosition = 0;
 let animationAction;
 
 let storedHTML = null;
+let storedHTML2 = null;
+let storedHTML3 = null;
 // Animation variables
 let mixer; // Animation mixer
 let played = false;
@@ -133,9 +135,15 @@ function smoothCameraTransition(targetCamera) {
       }
       // Remove a specific HTML element (e.g., a div with ID 'oldDiv')
       const elementToRemove = document.getElementById('secondPart');
+      const elementToRemove2 = document.getElementById('skills');
+      const elementToRemove3 = document.getElementById('contact');
       if (elementToRemove) {
         storedHTML = elementToRemove.innerHTML;
-        elementToRemove.remove();  // Remove the element from the DOM
+        storedHTML2 = elementToRemove2.innerHTML;
+        storedHTML3 = elementToRemove3.innerHTML
+        elementToRemove.remove();
+        elementToRemove2.remove();
+        elementToRemove3.remove();// Remove the element from the DOM
       }
     }
   });
@@ -157,14 +165,24 @@ function smoothCameraTransitionDN() {
         newDiv.id = 'secondPart'; // Set the same ID if needed
         newDiv.innerHTML = storedHTML; // Use the stored HTML content
         document.body.appendChild(newDiv); // Append the new div to the body
-        storedHTML = null; // Reset storedHTML to null once re-added
+        storedHTML = null;
+
+        const newDiv2 = document.createElement('div');
+        newDiv2.id = 'skills'; // Set the same ID if needed
+        newDiv2.innerHTML = storedHTML2; // Use the stored HTML content
+        document.body.appendChild(newDiv2); // Append the new div to the body
+        storedHTML2 = null;
+
 
         const otherDiv = document.getElementById('mn');
         const otherDiv1 = document.getElementById('secondPart');
+        const otherDiv2 = document.getElementById('skills');
+
 
         if (otherDiv && otherDiv1) {
-          otherDiv.style.background = 'linear-gradient(to right, rgb(38, 28, 30), rgb(70, 44, 47) 46%, rgb(53, 39, 52), rgb(37, 32, 41))'; // Set the background gradient
-          otherDiv1.style.backgroundImage = 'linear-gradient(to right, rgb(38, 28, 30), rgb(70, 44, 47) 46%, rgb(53, 39, 52), rgb(37, 32, 41)), linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1))'; // Set multiple gradients
+          otherDiv.style.background = 'linear-gradient(to right, rgb(38, 28, 30) 10%, rgb(70, 44, 47) 47%, rgb(61, 43, 53) , rgb(37, 32, 41) 83%)'; // Set the background gradient
+          otherDiv1.style.backgroundImage = 'linear-gradient(to right, rgb(38, 28, 30) 10%, rgb(70, 44, 47) 47%, rgb(61, 43, 53) , rgb(37, 32, 41)83%), linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1))'; // Set multiple gradients
+          otherDiv2.style.backgroundImage = 'radial-gradient(circle at center bottom, rgb(71,25,54)4%, rgb(0, 0, 0)39%)';
         }
       }
     }

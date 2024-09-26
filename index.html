@@ -19,18 +19,55 @@
     <main id="mn">
       <nav>
         <ul>
-          <li class="nav-link"><a href="#">About</a></li>
-          <li class="nav-link"><a href="#">Contact</a></li>
+          <a href="#pc">
+            <img src="/public/models/logo.png" id="logo" alt="Logo">
+          </a>
+          <li class="nav-link"><a href="#about">About</a></li>
+          <li class="nav-link"><a href="#skills">Skills</a></li>
+          <li class="nav-link"><a href="#contact">Contact</a></li>
         </ul>
       </nav>
-      <section>
+      <section id = "pc">
         <canvas id="background"></canvas>
         <script type="module" src="/src/main.js"></script>
       </section>
       <div id="secondPart">
-        <h2>This is the second part of the website</h2>
+        <div id="line">
+        </div>
+        <div id="about">
+          <h2>About Me </h2>
+        <p>
+          Hey there! I’m Kacper Lipiec, a 21-year-old tech enthusiast deep into my third year of Applied Information Technology at the University of Luxembourg.
+        </p>
+        <p>
+          I’m passionate about crafting awesome applications—whether it’s designing sleek, interactive front-ends or building the powerful back-end systems that make everything run. I love doing it all!
+        </p>
+        <p>
+          When I’m not studying, you’ll find me diving into personal projects that keep me on my toes. I’ve got a bunch of exciting ideas coming soon, and I’m always on the lookout for new challenges to sharpen my skills and push my boundaries. Whether it’s coding up a new app or exploring the latest tech, I’m all in for creating, learning, and growing in the dev world!
+        </p>
+        </div>
+        <div id="line2">
+        </div>
+      </div>
+      <div id="skills">
+        <div id = "skillsMain">
+        <h2 id = "h2Skills">My Skills</h2>
+          <ul class = "skillsTab">
+            <li class = "skill">HTML/CSS</li>
+            <li class = "skill">Python</li>
+            <li class = "skill">Dart</li>
+            <li class = "skill">Rust</li>
+            <li class = "skill">C</li>
+            <li class = "skill">Java</li>
+          <li class = "skill">JavaScript</li>
+          </ul>
+        </div>
+        <h2 id = 'contact'>Contact me at</h2>
+        <p id = "email">lipiec2003kacper@gmail.com</p>
       </div>
     </main>
+
+
     <script>
       window.onscroll = function() {
       stickyNav();
