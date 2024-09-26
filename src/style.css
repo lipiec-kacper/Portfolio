@@ -4,7 +4,9 @@
   margin: 0;
 }
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
 }
 
 a {
@@ -15,7 +17,7 @@ ul {
   list-style: none;
 }
 
-main {
+#mn {
   background: linear-gradient(to right,
   rgb(38, 28, 30), 
   rgb(55, 36, 39),
@@ -41,7 +43,7 @@ nav {
 
 nav.sticky {
   position: fixed; /* Fix the nav when it reaches the trigger point */
-  background-color: rgba(0, 0, 0, 0.8); /* Make the background slightly darker */
+  background-color: rgba(0, 0, 0, 0); /* Make the background slightly darker */
   z-index:10;
 }
 
@@ -68,7 +70,6 @@ nav ul {
   width: 100vw; /* Full viewport width */
   height: 100vh; /* Full viewport height */
   
-  /* Use background-image for layering gradients */
   background-image: 
     linear-gradient(to right, 
       rgb(38, 28, 30), 
@@ -76,8 +77,6 @@ nav ul {
       rgb(43, 34, 41), 
       rgb(30, 26, 32)),
     linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
-  
-  /* Use background-blend-mode to mix the two gradients */
   background-blend-mode: multiply;
   
   background-size: 100% 100%;

@@ -150,6 +150,7 @@ function smoothCameraTransitionDN() {
     onUpdate: function () {
       camera.lookAt(-0.545640230178833, 0.1285281628370285, -0.0006271898746490479);
     },
+
     onComplete: function () {
       if (storedHTML) {
         const newDiv = document.createElement('div');
@@ -157,6 +158,14 @@ function smoothCameraTransitionDN() {
         newDiv.innerHTML = storedHTML; // Use the stored HTML content
         document.body.appendChild(newDiv); // Append the new div to the body
         storedHTML = null; // Reset storedHTML to null once re-added
+
+        const otherDiv = document.getElementById('mn');
+        const otherDiv1 = document.getElementById('secondPart');
+
+        if (otherDiv && otherDiv1) {
+          otherDiv.style.background = 'linear-gradient(to right, rgb(38, 28, 30), rgb(70, 44, 47) 43%, rgb(53, 39, 52), rgb(30, 26, 32))'; // Set the background gradient
+          otherDiv1.style.backgroundImage = 'linear-gradient(to right, rgb(38, 28, 30), rgb(70, 44, 47) 43%, rgb(53, 39, 52), rgb(30, 26, 32)), linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1))'; // Set multiple gradients
+        }
       }
     }
   });
