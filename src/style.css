@@ -182,7 +182,7 @@ p {
   display: flex; /* Use flexbox for alignment */
   flex-direction: column; /* Stack children vertically */
   justify-content: center; /* Center children vertically */
-  align-items: center; /
+  align-items: center; 
 }
 
 #skillsMain {
