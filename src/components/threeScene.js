@@ -2,32 +2,34 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { gsap } from 'gsap';
 
-let renderer = new THREE.WebGLRenderer({
-  canvas: document.querySelector('#background'),
-  antialias: true,
-});
-
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.shadowMap.enabled = true;
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setClearColor(0xffffff, 0);
-renderer.outputColorSpace = THREE.SRGBColorSpace;
-
-const scene = new THREE.Scene();
-let cameraList = [];
+let renderer;
+let scene;
 let camera;
 let currentCamera = 1;
 let lastScrollPosition = 0;
 
-let animationAction;
-
-let storedHTML = null;
-let storedHTML2 = null;
-let storedHTML3 = null;
 // Animation variables
 let mixer; // Animation mixer
-let played = false;
 const clock = new THREE.Clock(); // Clock to track time
+
+// Function to initialize Three.js
+export function initThreeJS() {
+  renderer = new THREE.WebGLRenderer({
+    canvas: document.querySelector('#background'),
+    antialias: true,
+  });
+
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.shadowMap.enabled = true;
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setClearColor(0xffffff, 0);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+  scene = new THREE.Scene();
+
+  // Load your GLTF model (replace 'yourModelPath.glb' with the actual path)
+  loadGLTFModel('/public/models/yourModelPath.glb');
+}
 
 // Load the GLB model
 const loadGLTFModel = (path) => {
@@ -40,17 +42,14 @@ const loadGLTFModel = (path) => {
 
       if (screen) {
         const video = document.createElement('video');
-        video.src = '/public/models/modified.mp4'
+        video.src = '/public/models/modified.mp4';
         video.loop = false;
         video.muted = true;
 
-        //Create a texture from the video
+        // Create a texture from the video
         const videoTexture = new THREE.VideoTexture(video);
-        videoTexture.repeat.set(4, 4); // Increase these values to make the video smaller
-
-        // Center the video texture by adjusting the offset
-        videoTexture.offset.set(-0.5, -1);
-
+        videoTexture.repeat.set(4, 4); // Adjust these values as needed
+        videoTexture.offset.set(-0.5, -1); // Center the video texture
 
         video.currentTime = 0;
         video.pause();
