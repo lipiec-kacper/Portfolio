@@ -200,7 +200,7 @@ function animate() {
 }
 
 // Initialize the scene and load the model
-loadGLTFModel('/public/models/sceneAn2.gltf')
+loadGLTFModel('/public/models/sceneRB.gltf')
   .then(retrieveListOfCameras)
   .catch((error) => {
     console.error('Error loading GLTF model:', error);

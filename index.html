@@ -1,31 +1,50 @@
 <!DOCTYPE html>
 <html>
-	<head lang="en">
-		<meta charset="utf-8">
-		<title>My first three.js app</title>
-	  <link rel="stylesheet" type="text/css" href="/src/style.css">
-		<script type="importmap">
-			{
-				"imports": {
-					"three": "./node_modules/three/build/three.module.js"
-				}
-			}
-		</script>
-	</head>
-	<body>
-    <header>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Home</a></li>
-      </ul>
-    </header>
-    <section>
-		<canvas id="background"></canvas>
-		<script type="module" src="/src/main.js"></script>
-    </section>
-    <div id = secondPart>
-      <h2>This is the second part of the website</h2>
-    </div>
-</body>
+  <head lang="en">
+    <meta charset="utf-8">
+    <title>My first three.js app</title>
+    <link rel="stylesheet" type="text/css" href="/src/style.css">
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./node_modules/three/build/three.module.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <main>
+      <nav>
+        <ul>
+          <li class="nav-link"><a href="#">Home</a></li>
+          <li class="nav-link"><a href="#">About</a></li>
+          <li class="nav-link"><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+      <section>
+        <canvas id="background"></canvas>
+        <script type="module" src="/src/main.js"></script>
+      </section>
+      <div id="secondPart">
+        <h2>This is the second part of the website</h2>
+      </div>
+    </main>
+    <script>
+      window.onscroll = function() {
+      stickyNav();
+    };
+
+    const nav = document.querySelector('nav');
+    const stickyPoint = window.innerWidth / 2; // Adjust this value to when you want the nav to stick
+    console.log(stickyPoint);
+
+    function stickyNav() {
+      if (window.scrollY > stickyPoint) {
+        nav.classList.add("sticky");
+      } else {
+        nav.classList.remove("sticky");
+      }
+    }
+  </script>
+  </body>
 </html>
