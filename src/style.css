@@ -1,37 +1,216 @@
+
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+#mn {
+  background: linear-gradient(to right,
+  rgb(38, 28, 30), 
+  rgb(55, 36, 39) 40% ,
+  rgb(39, 31, 39)75%,
+  rgb(30, 26, 32));
+  min-height: 102vh;
+  overflow: hidden;
+  width: 100%;
+  top:0;
+}
+nav{
+  position: absolute; /* Keep the nav fixed at the top */
+  top: 10px; /* Adjust the top offset as needed */
+  left: 50%;
+  display: flex;
+  transform: translateX(-50%); /* Center the nav horizontally */
+  align-items: center;
+  justify-content: center; /* Center the content inside */
+  width: 24%; /* Adjust the width to fit your design */
+  background-color: rgba(20, 20, 20, 0.8); /* Semi-transparent background */
+  border-radius: 30px; /* Rounded corners */
+  padding: 1px 0; /* Add padding inside the nav */
+  z-index: 1;
+  transition: position 0.3s ease, background-color 0.3s ease;
+}
+
+#logo{
+  height: 50px;
+  width:50px;
+  position: relative;
+  left: -35px;
+}
+
+nav.sticky {
+  position: fixed; /* Fix the nav when it reaches the trigger point */
+  background-color: rgba(0, 0, 0, 0.2); /* Make the background slightly darker when sticky */
+  z-index: 10;
+}
+
+nav ul, #logo{
+  display: flex;
+  justify-content: center; /* Center the nav items inside the nav */
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.nav-link a {
+  display: inline-block;
+  padding: 1rem 2rem; /* Adjust padding for better alignment */
+  color: #e7e2db;
+  transition: color 0.3s;
+  font-weight: 200;
+  letter-spacing: 1px;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.nav-link a:hover {
+  color: #fff; /* Change color on hover */
+}
 canvas {
   top: 0;
   left: 0;
-};
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0; /* Ensure the canvas stays behind the nav */
 }
 
-#firstPart, #secondPart {
-  width: 100vw;  /* Full viewport width */
-  height: 100vh; /* Full viewport height */
+h2 {
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-weight: 700;
+  font-style: normal;
+  margin-bottom: 80px;
 }
 
-#firstPart {
-  background: #333;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+#h2Skills{
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-weight: 700;
+  font-style: normal;
+  margin-bottom: 60px;
 }
+#contact{
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-weight: 700;
+  font-style: normal;
+  margin-top: 30px;
+}
+
+#email{
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-weight: 200;
+  font-style: normal;
+}
+
+p {
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-weight: 200;
+  font-style: normal;
+  margin-bottom: 15px;
+}
+
 
 #secondPart {
-  background: #333;
-  color: #333;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100vw; /* Full viewport width */
+  height: 50vh; /* Full viewport height */
+  
+  background-image: 
+    linear-gradient(to right, 
+      rgb(38, 28, 30), 
+      rgb(55, 36, 39) 40%, 
+      rgb(39, 31, 39) 75%, 
+      rgb(30, 26, 32)),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+  background-blend-mode: multiply;
+  background-size: 100% 100%;
+  
+  display: flex; /* Use flexbox for alignment */
+  flex-direction: column; /* Stack children vertically */
+  justify-content: center; /* Center children vertically */
+  align-items: center; /* Center children horizontally */
 }
-/* Ensure the body can scroll to show the second section */
-html, body {
-  /*margin: 0;*/
-  /*padding: 0;*/
-  scroll-behavior: smooth;
-  overflow-x: hidden;
+
+#line {
+  width: 5px; /* Set width of the line */
+  height: 30%; /* Thickness of the line */
+  background-color: grey; /* Color of the line */
+  margin-bottom: 60px; /* Space between the line and #about */
+  border-radius: 30px;
+}
+
+#line2 {
+  width: 5px; /* Set width of the line */
+  height: 30%; /* Thickness of the line */
+  background-color: grey; /* Color of the line */
+  margin-top: 0px; /* Space between the line and #about */
+  border-radius: 30px;
+}
+
+
+
+#about {
+  width: 50%; /* Width of the #about section */
+  height: auto; /* Allow height to adjust based on content */
+  display: flex; /* Enable flexbox */
+  flex-direction: column; /* Stack child elements vertically */
+  align-items: center; /* Center child elements horizontally */
+  padding: 20px; /* Padding inside the #about section */
+}
+
+#skills{
+  width: 100vw;
+  height: 50vh;
+  background-image: 
+    radial-gradient(circle at center bottom, rgba(148, 0, 211, 0.1), rgba(0, 0, 0, 1));
+
+  display: flex; /* Use flexbox for alignment */
+  flex-direction: column; /* Stack children vertically */
+  justify-content: center; /* Center children vertically */
+  align-items: center; /
+}
+
+#skillsMain {
+  flex-direction: column; /* Stack children vertically */
+  padding: 20px;
+  align-items: center; /* Center the contents horizontally */
+}
+
+.skillsTab {
+  display: flex; /* Use flexbox for the list items */
+  justify-content: center; /* Center the items horizontally */
+  width: 100%; /* Adjust the width as needed */
+  list-style-type: none; /* Remove bullet points */
+  padding: 0; /* Remove default padding */
+  margin: 0; /* Remove default margin */
+}
+
+.skill {
+  width: 90px;
+  height: 28px;
+  color: white;
+  background-color: rgb(128, 128, 128);
+  text-align: center; 
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center text horizontally */
+  margin: 5px; /* Add margin between skill items */
+  font-weight: 500;
+
 }

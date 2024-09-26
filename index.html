@@ -1,33 +1,89 @@
 <!DOCTYPE html>
 <html>
-	<head lang="en">
-		<meta charset="utf-8">
-		<title>My first three.js app</title>
-		<style>
-			body { margin: 0; }
-		</style>
+  <head lang="en">
+    <meta charset="utf-8">
+    <title>My first three.js app</title>
+    <link rel="stylesheet" type="text/css" href="/src/style.css">
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./node_modules/three/build/three.module.js"
+        }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <main id="mn">
+      <nav>
+        <ul>
+          <a href="#pc">
+            <img src="/public/models/logo.png" id="logo" alt="Logo">
+          </a>
+          <li class="nav-link"><a href="#about">About</a></li>
+          <li class="nav-link"><a href="#skills">Skills</a></li>
+          <li class="nav-link"><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <section id = "pc">
+        <canvas id="background"></canvas>
+        <script type="module" src="/src/main.js"></script>
+      </section>
+      <div id="secondPart">
+        <div id="line">
+        </div>
+        <div id="about">
+          <h2>About Me </h2>
+        <p>
+          Hey there! I’m Kacper Lipiec, a 21-year-old tech enthusiast deep into my third year of Applied Information Technology at the University of Luxembourg.
+        </p>
+        <p>
+          I’m passionate about crafting awesome applications—whether it’s designing sleek, interactive front-ends or building the powerful back-end systems that make everything run. I love doing it all!
+        </p>
+        <p>
+          When I’m not studying, you’ll find me diving into personal projects that keep me on my toes. I’ve got a bunch of exciting ideas coming soon, and I’m always on the lookout for new challenges to sharpen my skills and push my boundaries. Whether it’s coding up a new app or exploring the latest tech, I’m all in for creating, learning, and growing in the dev world!
+        </p>
+        </div>
+        <div id="line2">
+        </div>
+      </div>
+      <div id="skills">
+        <div id = "skillsMain">
+        <h2 id = "h2Skills">My Skills</h2>
+          <ul class = "skillsTab">
+            <li class = "skill">HTML/CSS</li>
+            <li class = "skill">Python</li>
+            <li class = "skill">Dart</li>
+            <li class = "skill">Rust</li>
+            <li class = "skill">C</li>
+            <li class = "skill">Java</li>
+          <li class = "skill">JavaScript</li>
+          </ul>
+        </div>
+        <h2 id = 'contact'>Contact me at</h2>
+        <p id = "email">lipiec2003kacper@gmail.com</p>
+      </div>
+    </main>
 
-	<link rel="stylesheet" type="text/css" href="/src/style.css">
-		<!-- 
-			Import map is not available in all browsers.
-			This is necessary to serve the three path so that other imports can access it. 
-		-->
-		<script type="importmap">
-			{
-				"imports": {
-					"three": "./node_modules/three/build/three.module.js"
-				}
-			}
-		</script>
-	</head>
-	<body>
-    <div id = "firstPart">
-<!-- Canvas is necessary to hold a scene  -->
-		<canvas id="background"></canvas>
-		<script type="module" src="/src/main.js"></script>
-      
-    </div>
-		<div id="secondPart">
-    </div>
-	</body>
+
+    <script>
+      window.onscroll = function() {
+      stickyNav();
+    };
+
+    const nav = document.querySelector('nav');
+    const stickyPoint = window.innerWidth / 2; // Adjust this value to when you want the nav to stick
+    console.log(stickyPoint);
+
+    function stickyNav() {
+      if (window.scrollY > stickyPoint) {
+        nav.classList.add("sticky");
+      } else {
+        nav.classList.remove("sticky");
+      }
+    }
+  </script>
+  </body>
 </html>
