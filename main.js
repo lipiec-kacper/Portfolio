@@ -243,6 +243,3 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-
-
->>>>>>> dev:main.js
