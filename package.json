@@ -1,26 +1,19 @@
 {
-  "name": "portfolio",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "name": "html-starter",
+  "version": "1.0.0",
+  "main": "main.js",
   "scripts": {
-    "dev": "node server",
-    "build": "npm run build:client && npm run build:server",
-    "build:client": "vite build --ssrManifest --outDir dist/client",
-    "build:server": "vite build --ssr src/entry-server.js --outDir dist/server",
-    "preview": "cross-env NODE_ENV=production node server"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "dependencies": {
-    "compression": "^1.7.4",
-    "express": "^4.19.2",
     "gsap": "^3.12.5",
-    "sirv": "^2.0.4",
-    "three": "^0.168.0",
-    "vue": "^3.4.23"
+    "three": "^0.169.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.0.4",
-    "cross-env": "^7.0.3",
-    "vite": "^5.2.10"
+    "vite": "^5.4.8"
   }
 }
