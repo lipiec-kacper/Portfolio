@@ -177,7 +177,7 @@ p {
   width: 100vw;
   height: 50vh;
   background-image: 
-    radial-gradient(circle at center bottom, rgba(148, 0, 211, 0.1), rgba(0, 0, 0, 1));
+    radial-gradient(circle at center bottom, rgb(71, 25, 54) 4%, rgb(0, 0, 0) 39%);
 
   display: flex; /* Use flexbox for alignment */
   flex-direction: column; /* Stack children vertically */
