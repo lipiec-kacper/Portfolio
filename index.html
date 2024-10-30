@@ -11,14 +11,8 @@
   <body>
     <main id="mn">
       <nav>
-        <ul>
-          <a href="#pc">
-            <img src="/models/logo.png" id="logo" alt="Logo">
-          </a>
-          <li class="nav-link"><a href="#about">About</a></li>
-          <li class="nav-link"><a href="#skills">Skills</a></li>
-          <li class="nav-link"><a href="#contact">Contact</a></li>
-        </ul>
+        <h1 id="name">Kacper Lipiec</h1>
+        <div id="nameline"></div>
       </nav>
       <div id = "pc">
         <canvas id="background"></canvas>
@@ -42,41 +36,10 @@
         <div id="line2">
         </div>
       </div>
+      <!-- skils -->
       <div id="skills">
-        <div id = "skillsMain">
-        <h2 id = "h2Skills">My Skills</h2>
-          <ul class = "skillsTab">
-            <li class = "skill">HTML/CSS</li>
-            <li class = "skill">Python</li>
-            <li class = "skill">Dart</li>
-            <li class = "skill">Rust</li>
-            <li class = "skill">C</li>
-            <li class = "skill">Java</li>
-          <li class = "skill">JavaScript</li>
-          </ul>
-        </div>
-        <h2 id = 'contact'>Contact me at</h2>
-        <p id = "email">lipiec2003kacper@gmail.com</p>
+
       </div>
     </main>
-
-
-    <script>
-      window.onscroll = function() {
-      stickyNav();
-    };
-
-    const nav = document.querySelector('nav');
-    const stickyPoint = window.innerWidth / 2; // Adjust this value to when you want the nav to stick
-    console.log(stickyPoint);
-
-    function stickyNav() {
-      if (window.scrollY > stickyPoint) {
-        nav.classList.add("sticky");
-      } else {
-        nav.classList.remove("sticky");
-      }
-    }
-  </script>
   </body>
 </html>
