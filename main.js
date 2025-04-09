@@ -23,13 +23,12 @@ let lastScrollPosition = 0;
 
 let storedHTML = null;
 let storedHTML2 = null;
-let storedHTML3 = null;
-// Animation variables
-let mixer; // Animation mixer
-let played = false;
-const clock = new THREE.Clock(); // Clock to track time
 
-// Load the GLB model
+let mixer;
+let played = false;
+const clock = new THREE.Clock();
+
+//Load the GLB model
 const loadGLTFModel = (path) => {
   return new Promise((resolve, reject) => {
     const loader = new GLTFLoader();
@@ -71,6 +70,7 @@ const loadGLTFModel = (path) => {
     }, undefined, reject);
   });
 };
+
 function setupAnimations(gltf) {
   mixer = new THREE.AnimationMixer(gltf.scene);
 
@@ -110,6 +110,7 @@ function updateCameraAspect(camera) {
   camera.updateProjectionMatrix();
 }
 
+//ZOOM
 function smoothCameraTransition(targetCamera) {
   gsap.to(camera.position, {
     x: targetCamera.position.x,
@@ -120,6 +121,7 @@ function smoothCameraTransition(targetCamera) {
       camera.lookAt(-0.545640230178833, 0.1285281628370285, -0.0006271898746490479);
     },
     onComplete: function () {
+      camera.position.set(targetCamera.position.x, targetCamera.position.y, targetCamera.position.z);
       const screen = scene.getObjectByName('BlackScreen');
       if (screen) {
         if (played === false) {
@@ -140,18 +142,16 @@ function smoothCameraTransition(targetCamera) {
       // Remove a specific HTML element (e.g., a div with ID 'oldDiv')
       const elementToRemove = document.getElementById('secondPart');
       const elementToRemove2 = document.getElementById('skills');
-      const elementToRemove3 = document.getElementById('contact');
       if (elementToRemove) {
         storedHTML = elementToRemove.innerHTML;
         storedHTML2 = elementToRemove2.innerHTML;
-        storedHTML3 = elementToRemove3.innerHTML
         elementToRemove.remove();
         elementToRemove2.remove();
-        elementToRemove3.remove();// Remove the element from the DOM
       }
     }
   });
 }
+
 
 function smoothCameraTransitionDN() {
   gsap.to(camera.position, {
@@ -161,10 +161,11 @@ function smoothCameraTransitionDN() {
     duration: 2,
     onUpdate: function () {
       camera.lookAt(-0.545640230178833, 0.1285281628370285, -0.0006271898746490479);
+      camera.updateProjectionMatrix(); // Update the projection matrix to apply FOV changes
     },
-
     onComplete: function () {
       if (storedHTML) {
+        camera.position.set(0.35830822587013245, 0.4298137128353119, 0.42748406529426575);
         const newDiv = document.createElement('div');
         newDiv.id = 'secondPart'; // Set the same ID if needed
         newDiv.innerHTML = storedHTML; // Use the stored HTML content
@@ -177,18 +178,25 @@ function smoothCameraTransitionDN() {
         document.body.appendChild(newDiv2); // Append the new div to the body
         storedHTML2 = null;
 
-
         const otherDiv = document.getElementById('mn');
         const otherDiv1 = document.getElementById('secondPart');
         const otherDiv2 = document.getElementById('skills');
 
-
         if (otherDiv && otherDiv1) {
-          otherDiv.style.background = 'linear-gradient(to right, rgb(38, 28, 30) 10%, rgb(70, 44, 47) 47%, rgb(61, 43, 53) , rgb(37, 32, 41) 83%)'; // Set the background gradient
-          otherDiv1.style.backgroundImage = 'linear-gradient(to right, rgb(38, 28, 30) 10%, rgb(70, 44, 47) 47%, rgb(61, 43, 53) , rgb(37, 32, 41)83%), linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1))'; // Set multiple gradients
-          otherDiv2.style.backgroundImage = 'radial-gradient(circle at center bottom, rgb(71,25,54)4%, rgb(0, 0, 0)39%)';
+          otherDiv.style.background = 'linear-gradient(to right, rgb(38, 28, 30), rgb(55, 36, 39) 40%, rgb(39, 31, 39) 75%, rgb(30, 26, 32))'; // Set the background gradient
+          otherDiv1.style.backgroundImage = 'linear-gradient(to right, rgb(38, 28, 30) , rgb(55, 36, 39) 40%, rgb(39, 31, 39) 75%, rgb(30, 26, 32)), linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1))';
+          otherDiv2.style.backgroundImage = 'radial-gradient(circle at center bottom, rgb(71,25,54) 4%, rgb(0, 0, 0) 39%)';
         }
       }
+    }
+  });
+
+  // New GSAP animation for the FOV change
+  gsap.to(camera, {
+    fov: 31, // Target FOV value (change to your desired final FOV)
+    duration: 2,
+    onUpdate: function () {
+      camera.updateProjectionMatrix(); // Ensure the FOV change is applied
     }
   });
 }
@@ -199,11 +207,16 @@ function switchCameraOnScroll() {
   const currentScrollPosition = window.scrollY;
   const scrollDifference = Math.abs(currentScrollPosition - lastScrollPosition);
 
+  console.log(cameraList[1].position.x);
+  console.log(cameraList[1].position.y);
+  console.log(cameraList[1].position.z);
+
+
   if (scrollDifference > scrollThreshold) {
     if (currentScrollPosition > lastScrollPosition) {
       if (currentCamera === 0) {
         currentCamera = 1;
-        smoothCameraTransitionDN();
+        smoothCameraTransitionDN(cameraList[1]);
         updateCameraAspect(camera);
       }
     } else if (currentScrollPosition < lastScrollPosition) {
@@ -230,6 +243,9 @@ function animate() {
   renderer.render(scene, camera);
 }
 
+
+window.addEventListener('scroll', switchCameraOnScroll);
+
 // Initialize the scene and load the model
 loadGLTFModel('/models/sceneRB.gltf')
   .then(retrieveListOfCameras)
@@ -238,8 +254,10 @@ loadGLTFModel('/models/sceneRB.gltf')
   });
 
 // Handle window resize
-window.addEventListener('resize', () => {
-  updateCameraAspect(camera);
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
+// window.addEventListener('resize', () => {
+//   updateCameraAspect(camera);
+//   renderer.setSize(window.innerWidth, window.innerHeight);
+// });
+//
+
 
